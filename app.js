@@ -1,3 +1,4 @@
+import { isTaskNameOk } from "./app-utils.js";
 import { h, component } from "./lib.js";
 
 function loadData() {
@@ -11,34 +12,59 @@ function loadData() {
 }
 
 const button = component((props, children) => {
-  // TODO
+  return h(
+    "button",
+    {
+      type: props.type || "button",
+      onclick: props.onclick,
+    },
+    children
+  );
 });
 
 const taskItem = component((props, children, rerender) => {
   function toggle(event) {
-    // TODO
+    props.task.done = !props.task.done;
+    rerender();
   }
 
   function rename() {
-    // TODO
+    const newName = window.prompt("Nouveau nom de tâche", props.task.title);
+    if (!isTaskNameOk(newName)) return alert("Le nom entré n'est pas correct");
+    props.task.title = newName;
+    rerender();
   }
 
   const checkStatus = props.task.done ? { checked: "" } : {};
-  return h("div", { class: "task-item" }, [
+  return h("li", { class: "task-list__item" }, [
     h("input", { type: "checkbox", onclick: toggle, ...checkStatus }),
+    h(
+      "span",
+      { class: `${props.task.done && "task-item--checked"}` },
+      props.task.title
+    ),
     button({ onclick: rename }, "rename"),
-    button({ onclick: () => props.onTaskDeleted() }, "delete"),
+    button({ onclick: () => props.onTaskDeleted(props.task) }, "delete"),
   ]);
 });
 
 const taskList = component((props) => {
-  // TODO: loop on props.tasks to generate a list of taskItem
-  // call props.onTaskDeleted(task) when a task is deleted
+  const items = props.tasks.map((task) => {
+    return taskItem({
+      task,
+      onTaskDeleted: () => props.onTaskDeleted(task),
+    });
+  });
+  return h("ul", { class: "app__task-list" }, [...items]);
 });
 
 const addTaskForm = component((props) => {
   function onsubmit(event) {
-    // TODO: call props.onTaskCreared() with a task object as argument
+    event.preventDefault();
+    const newTaskTitle = event.target.elements.title.value;
+    if (!isTaskNameOk(newTaskTitle))
+      return alert("Le nom entré n'est pas correct");
+    props.onTaskCreated(newTaskTitle);
   }
 
   return h("form", { onsubmit }, [
@@ -51,15 +77,18 @@ let tasks;
 const app = component((props, children, rerender) => {
   if (tasks) {
     return h("div", { id: "app" }, [
+      h("h1", { class: "app__title" }, "Kantree Todo App !"),
       taskList({
         tasks,
         onTaskDeleted: (task) => {
-          // TODO
+          tasks = tasks.filter((taskTofilter) => taskTofilter !== task);
+          rerender();
         },
       }),
       addTaskForm({
         onTaskCreated: (task) => {
-          // TODO
+          tasks.push({ title: task, done: false });
+          rerender();
         },
       }),
     ]);
@@ -67,7 +96,6 @@ const app = component((props, children, rerender) => {
 
   loadData().then((data) => {
     tasks = data;
-    console.log("data", data);
     rerender();
   });
 

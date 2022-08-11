@@ -1,0 +1,121 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    background: #656565;
+    background-repeat: no-repeat;
+    font-family: sans-serif;
+    animation: fadeIn 0.8s;
+}
+
+@keyframes fadeIn {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+h1 {
+    color: #1b9b81;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.app__task-list {
+    margin: 0;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    width: 50vw;
+    max-width: 30rem;
+    border-radius: 20px;
+    color: #aaaaaa;
+    background: #656565;
+    box-shadow: inset 9.91px 9.91px 12px #5C5C5C, inset -9.91px -9.91px 12px #6E6E6E;
+}
+
+.task-list__item {
+    margin: 0.5rem;
+    padding-bottom: 0.4rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #575656a2;
+}
+
+.task-list__item > span {
+    font-size: 1.1rem;
+    text-indent: 2rem;
+    pointer-events: none;
+}
+
+.task-list__item > button:first-of-type {
+    margin-left: auto;
+}
+
+.task-item--checked {
+    text-decoration: line-through;
+    color: #1b9b81;
+}
+
+form {
+    background: #656565;
+    padding: 25px;
+    box-shadow: inset 9.91px 9.91px 12px #5C5C5C, inset -9.91px -9.91px 12px #6E6E6E;
+    width: 50vw;
+    max-width: 30rem;
+    margin: 20px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+form > input {
+    width: 100%;
+    color: #aaaaaa;
+    box-shadow: inset 9.91px 9.91px 12px #5C5C5C, inset -9.91px -9.91px 12px #6E6E6E;
+    border: none;
+    padding: 0 10px;
+    background: transparent;
+    border-radius: 10px;
+    transition: all .2s;
+    margin-right: 5px;
+}
+
+form > input:focus-within {
+    color: #e7e7e7;
+    outline: none;
+    box-shadow: inset 30.03px 30.03px 15px #5C5C5C, inset -30.03px -30.03px 15px #6E6E6E;
+}
+
+button {
+    box-shadow: inset 9.91px 9.91px 12px #5C5C5C, inset -9.91px -9.91px 12px #6E6E6E;
+    background: #656565;
+    border: none;
+    color: #aaaaaa;
+    transition: color .2s;
+    cursor: pointer;
+    padding: .5rem;
+    margin: 0 5px;
+    border-radius: 10px;
+}
+
+button:hover {
+    color: #e7e7e7;
+    box-shadow: inset 30.03px 30.03px 15px #5C5C5C, inset -30.03px -30.03px 15px #6E6E6E;
+}
