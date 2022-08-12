@@ -12,21 +12,25 @@ body {
 
 @keyframes fadeIn {
     0%{
+        transform: translateY(-50px);
         opacity: 0;
     }
     100%{
+        transform: translateY(0px);
         opacity: 1;
     }
 }
 
 h1 {
     color: #1b9b81;
+    height: 3rem;
+    pointer-events: none;
 }
 
 #app {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     height: 100%;
@@ -37,31 +41,68 @@ h1 {
     padding: 25px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     list-style: none;
     width: 50vw;
     max-width: 30rem;
+    min-height: 10rem;
     border-radius: 20px;
     color: #aaaaaa;
     background: #656565;
     box-shadow: inset 9.91px 9.91px 12px #5C5C5C, inset -9.91px -9.91px 12px #6E6E6E;
 }
 
+@keyframes emptyArrowUpDown {
+    0% {
+        top: 7.5rem;
+    }
+    50% {
+        top: 6rem;
+    }
+    100% {
+        top: 7.5rem;
+    }
+}
+
+.app__task-list--empty::after {
+    content: '';
+    width: 25px;
+    height: 25px;
+    position: relative;
+    top: 7.5rem;
+    display: block;
+    transform: rotate(-45deg);
+    border-bottom: 2px solid #1b9b81;
+    border-left: 2px solid #1b9b81;
+    animation: emptyArrowUpDown 1.5s infinite ease-in-out;
+}
+
 .task-list__item {
-    margin: 0.5rem;
-    padding-bottom: 0.4rem;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all .2s;
     border-bottom: 1px solid #575656a2;
 }
 
-.task-list__item > span {
+.task-list__item > label {
+    width: 100%;
+    cursor: pointer;
+    padding: 0.4rem;
+
+}
+
+.task-list__item span {
     font-size: 1.1rem;
-    text-indent: 2rem;
+    padding-left: 2rem;
+    user-select: none; 
     pointer-events: none;
+}
+
+.task-list__item:hover {
+    box-shadow: inset 9.91px 9.91px 12px #5C5C5C, inset -9.91px -9.91px 12px #6E6E6E;
 }
 
 .task-list__item > button:first-of-type {
@@ -90,9 +131,9 @@ form > input {
     color: #aaaaaa;
     box-shadow: inset 9.91px 9.91px 12px #5C5C5C, inset -9.91px -9.91px 12px #6E6E6E;
     border: none;
-    padding: 0 10px;
+    padding: 10px;
     background: transparent;
-    border-radius: 10px;
+    border-radius: 5px;
     transition: all .2s;
     margin-right: 5px;
 }
@@ -104,15 +145,17 @@ form > input:focus-within {
 }
 
 button {
-    box-shadow: inset 9.91px 9.91px 12px #5C5C5C, inset -9.91px -9.91px 12px #6E6E6E;
-    background: #656565;
+    /* box-shadow: inset 9.91px 9.91px 12px #5C5C5C, inset -9.91px -9.91px 12px #6E6E6E; */
+    background: transparent;
     border: none;
+    height: 90%;
     color: #aaaaaa;
     transition: color .2s;
     cursor: pointer;
     padding: .5rem;
-    margin: 0 5px;
-    border-radius: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: fantasy;
 }
 
 button:hover {

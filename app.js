@@ -8,6 +8,7 @@ function loadData() {
     })
     .catch((err) => {
       console.error(err);
+      return [];
     });
 }
 
@@ -37,18 +38,26 @@ const taskItem = component((props, children, rerender) => {
 
   const checkStatus = props.task.done ? { checked: "" } : {};
   return h("li", { class: "task-list__item" }, [
-    h("input", { type: "checkbox", onclick: toggle, ...checkStatus }),
-    h(
-      "span",
-      { class: `${props.task.done && "task-item--checked"}` },
-      props.task.title
-    ),
+    h("label", {}, [
+      h("input", { type: "checkbox", onclick: toggle, ...checkStatus }),
+      h(
+        "span",
+        { class: `${props.task.done && "task-item--checked"}` },
+        props.task.title
+      ),
+    ]),
     button({ onclick: rename }, "rename"),
     button({ onclick: () => props.onTaskDeleted(props.task) }, "delete"),
   ]);
 });
 
 const taskList = component((props) => {
+  if (!props.tasks.length)
+    return h(
+      "div",
+      { class: "app__task-list--empty app__task-list" },
+      "Ajoute de nouvelles tâches !"
+    );
   const items = props.tasks.map((task) => {
     return taskItem({
       task,
